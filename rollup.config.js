@@ -28,10 +28,7 @@ export default {
     external(),
     url({ exclude: ['**/*.svg'] }),
     resolve(),
-    typescript({
-      jsx: 'preserve',
-      include: null,
-    }),
+    typescript(),
     commonjs(),
   ],
 }
