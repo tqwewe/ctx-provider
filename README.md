@@ -8,20 +8,61 @@
 
 ```bash
 npm install --save ctx-provider
+# or
+yarn add ctx-provider
 ```
 
 ## Usage
 
+Create a context.
+
 ```tsx
-import * as React from 'react'
+// src/context/count.js
+import { useState } from 'react'
+import createStore from 'ctx-provider'
 
-import { useMyHook } from 'ctx-provider'
+const useCount = () => {
+  const [count, setCount] = useState(0)
 
-const Example = () => {
-  const example = useMyHook()
+  const inc = () => setCount(count + 1)
+  const dec = () => setCount(count - 1)
+
+  return { count, inc, dec }
+}
+
+export const { ctx, Provider } = createStore(useCount)
+```
+
+Apply the provider to the app.
+
+```tsx
+// src/App.jsx
+import React from 'react'
+
+import { Provider as CountProvider } from './context/count'
+
+const App = () => (
+  <Provider>
+    <Counter />
+  </Provider>
+)
+```
+
+Use the context from any component.
+
+```tsx
+// src/components/Counter.jsx
+import React, { useContext } from 'react'
+import { ctx as countContext } from './context/count'
+
+const Counter = () => {
+  const { count, inc, dec } = useContext(countContext)
+
   return (
     <div>
-      {example}
+      Count: {count}
+      <button onClick={() => inc()}>Increment</button>
+      <button onClick={() => dec()}>Decrement</button>
     </div>
   )
 }
@@ -30,7 +71,3 @@ const Example = () => {
 ## License
 
 MIT © [Acidic9](https://github.com/Acidic9)
-
----
-
-This hook is created using [create-react-hook](https://github.com/hermanya/create-react-hook).

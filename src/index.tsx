@@ -1,23 +1,27 @@
-import * as React from 'react';
+import React, { createContext } from 'react'
+export { default as CombinedProviders } from './components/CombinedProviders'
 
-export const useMyHook = () => {
-  let [{
-    counter
-  }, setState] = React.useState<{
-    counter: number;
-  }>({
-    counter: 0
-  });
+type Hook<T> = (...args: any[]) => T
 
-  React.useEffect(() => {
-    let interval = window.setInterval(() => {
-      counter++;
-      setState({counter})
-    }, 1000)
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, []);
+export interface ProviderProps {
+  args?: any
+  children: any
+}
 
-  return counter;
-};
+const createStore = <T,>(useHook: Hook<T>) => {
+  const ctx = createContext<T>({} as T)
+  const ProviderComponent = ctx.Provider
+
+  const Provider = ({ args, children }: ProviderProps) => {
+    const value = useHook(args)
+
+    return <ProviderComponent value={value}>{children}</ProviderComponent>
+  }
+
+  return {
+    ctx,
+    Provider,
+  }
+}
+
+export default createStore
