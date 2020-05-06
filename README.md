@@ -68,6 +68,37 @@ const Counter = () => {
 }
 ```
 
-## License
+## API
 
-MIT © [Acidic9](https://github.com/Acidic9)
+**`createStore(hook) => { ctx, Provider }`**
+
+Creates a context and provider component.
+
+```js
+const { ctx, Provider } = createStore(useHook)
+```
+
+**`CombinedProviders`**
+
+Combined multiple providers.
+
+Prop `providers` is an array.
+Each item can be a provider or an object containing `provider` and `args`.
+`args` is passed into the first parameter of the hook.
+
+```jsx
+<CombinedProviders
+  providers={[
+    ProviderOne,
+    ProviderTwo,
+    {
+      provider: ProviderThree,
+      args: 'initial value',
+    },
+  ]}
+>
+  /* ... */
+</CombinedProviders>
+```
+
+Developed by [Acidic9](https://github.com/Acidic9).
