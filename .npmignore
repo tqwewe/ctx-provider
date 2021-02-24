@@ -1,0 +1,8 @@
+.editorconfig
+.prettierrc
+./rollup.config.js
+example/
+src/
+./tsconfig.json
+./tsconfig.test.json
+./yarn-error.log
