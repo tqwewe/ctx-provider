@@ -8,6 +8,10 @@ export interface ProviderProps {
   children: any
 }
 
+export interface UseProviderProps {
+  args?: any
+}
+
 const createStore = <T,>(useHook: Hook<T>) => {
   const ctx = createContext<T>({} as T)
   const ProviderComponent = ctx.Provider
@@ -18,9 +22,19 @@ const createStore = <T,>(useHook: Hook<T>) => {
     return <ProviderComponent value={value}>{children}</ProviderComponent>
   }
 
+  const useProvider = ({ args }: UseProviderProps = {}): [
+    T,
+    React.Provider<T>
+  ] => {
+    const value = useHook(args)
+
+    return [value, ProviderComponent]
+  }
+
   return {
     ctx,
     Provider,
+    useProvider,
   }
 }
 

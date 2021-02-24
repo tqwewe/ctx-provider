@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   FunctionComponent,
+  ReactNode,
 } from 'react'
 import { render } from '@testing-library/react'
 
@@ -85,6 +86,34 @@ describe('createStore', () => {
       <GlobalState>
         <Component />
       </GlobalState>
+    )
+  })
+
+  it('provides useProvider', () => {
+    const { ctx, useProvider } = createStore(useCount)
+
+    const Inner = () => {
+      const { count } = useContext(ctx)
+
+      expect(count).toBe(0)
+
+      return <></>
+    }
+
+    const Outer = ({ children }: { children: ReactNode }) => {
+      const [value, Provider] = useProvider()
+
+      expect(typeof value.count).toBe('number')
+      expect(typeof value.inc).toBe('function')
+      expect(typeof value.dec).toBe('function')
+
+      return <Provider value={value}>{children}</Provider>
+    }
+
+    render(
+      <Outer>
+        <Inner />
+      </Outer>
     )
   })
 })
