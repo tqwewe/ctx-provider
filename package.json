@@ -1,6 +1,6 @@
 {
   "name": "ctx-provider",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React hooks and context utils",
   "author": "Acidic9",
   "license": "MIT",
