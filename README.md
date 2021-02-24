@@ -75,7 +75,7 @@ const Counter = () => {
 Creates a context and provider component.
 
 ```js
-const { ctx, Provider } = createStore(useHook)
+const { ctx, Provider, useProvider } = createStore(useHook)
 ```
 
 **`CombinedProviders`**
